@@ -4,6 +4,8 @@ Fractals and opengl
 
 I'm including glad, glm and stb_images for quick deployment.
 
+Requires opengl version > 4.1 because of double precision. But you can just convert all the shaders to use float instead and I think it will work with 3.x+
+
 Controls: 
 
 1. wasd & scroll wheel for mandelbrot & julia 
