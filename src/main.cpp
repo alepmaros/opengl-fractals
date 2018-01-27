@@ -9,6 +9,7 @@
 #include <Shader.h>
 
 #include <iostream>
+#include <string>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -21,14 +22,23 @@ int SCR_HEIGHT = 600;
 
 // fractal
 float cx = 0.0, cy = 0.0, zoom = 1.0;
+float cj_x = 0.0, cj_y = 0.0;
 float iter = 100;
 
 // timing
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-int main()
+int main(int argc, char *argv[])
 {
+    std::string fractal;
+    if (argc == 1) {
+        printf("Use: ./main <fractal> (can be mandelbrot or julia)\n");
+        return 0;
+    } else {
+        fractal = std::string(argv[1]);
+    }
+
     // glfw: initialize and configure
     // ------------------------------
     glfwInit();
@@ -71,6 +81,13 @@ int main()
     // build and compile our shader zprogram
     // ------------------------------------
     Shader ourShader("src/shaders/mandelbrot.vs", "src/shaders/mandelbrot.fs");
+    
+    if (fractal == "julia") {
+        ourShader = Shader("src/shaders/mandelbrot.vs", "src/shaders/julia.fs");
+        cj_x = 0.3820;
+        cj_y = 0.2801;
+        zoom = 0.4731;
+    }
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
@@ -131,9 +148,10 @@ int main()
 
         // activate shader
         ourShader.use();
-        ourshader.setVec2("screen_size", (float) SCR_WIDTH, (float) SCR_HEIGHT);
+        ourShader.setVec2("screen_size", (float) SCR_WIDTH, (float) SCR_HEIGHT);
         ourShader.setFloat("screen_ratio", (float) SCR_WIDTH / (float) SCR_HEIGHT);
-        ourshader.setVec2("center", cx, cy);
+        ourShader.setVec2("center", cx, cy);
+        ourShader.setVec2("cj", cj_x, cj_y);
         ourShader.setFloat("zoom", zoom);
         ourShader.setInt("iter", (int) iter);
 
@@ -166,7 +184,8 @@ void processInput(GLFWwindow *window)
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
-    float mov = 3 * deltaTime * (1.0/zoom);
+    float mov = 3.0 * deltaTime * (1.0/zoom);
+    float mov_julia = 0.1 * deltaTime;
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         cy += mov;
@@ -176,6 +195,15 @@ void processInput(GLFWwindow *window)
         cx -= mov;
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         cx += mov;
+    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+        cj_y += mov_julia;
+    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+        cj_y -= mov_julia;
+    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+        cj_x += mov_julia;
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+        cj_x -= mov_julia;
+
     if (glfwGetKey(window, GLFW_KEY_EQUAL) == GLFW_RELEASE) {
         iter -= 0.1;
         if (iter < 0) { iter = 0; }
