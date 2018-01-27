@@ -14,6 +14,9 @@ Controls:
 Mandelbrot:
 
 ![Mandelbrot](https://raw.githubusercontent.com/alepmaros/opengl-fractals/master/resources/images/mandelbrot1.png  "Mandelbrot 1")
+
+Julia:
+
 ![Julia](https://raw.githubusercontent.com/alepmaros/opengl-fractals/master/resources/images/julia1.png  "Julia 1")
 
 # Resources
