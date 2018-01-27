@@ -7,6 +7,7 @@ I'm including glad, glm and stb_images for quick deployment.
 # Images
 
 Mandelbrot:
+
 ![Mandelbrot](https://raw.githubusercontent.com/alepmaros/opengl-fractals/master/resources/images/mandelbrot1.png  "Mandelbrot 1")
 
 # Resources
