@@ -20,7 +20,7 @@ vec4 map_to_color(float t) {
 
 void main()
 {
-    vec2 z, c;
+    dvec2 z, c;
 
     c.x = screen_ratio * (gl_FragCoord.x / screen_size.x - 0.5);
     c.y = (gl_FragCoord.y / screen_size.y - 0.5);
@@ -33,15 +33,15 @@ void main()
 
     int i;
     for (i = 0; i < iter; i++) {
-        float x = (z.x * z.x - z.y * z.y) + c.x;
-        float y = (z.y * z.x + z.x * z.y) + c.y;
+        double x = (z.x * z.x - z.y * z.y) + c.x;
+        double y = (z.y * z.x + z.x * z.y) + c.y;
 
         if ((x * x + y * y) > 2.0) break;
         z.x = x;
         z.y = y;
     }
 
-    float t = float(i) / float(iter);
+    double t = double(i) / double(iter);
 
     FragColor = map_to_color(float(t));
 }

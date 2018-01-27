@@ -131,11 +131,11 @@ int main()
 
         // activate shader
         ourShader.use();
-        glUniform2f(glGetUniformLocation(ourShader.ID, "screen_size"), (float)SCR_WIDTH, (float)SCR_HEIGHT);
-		glUniform1f(glGetUniformLocation(ourShader.ID, "screen_ratio"), (float)SCR_WIDTH / (float)SCR_HEIGHT);
-		glUniform2f(glGetUniformLocation(ourShader.ID, "center"), cx, cy);
-		glUniform1f(glGetUniformLocation(ourShader.ID, "zoom"), zoom);
-        glUniform1i(glGetUniformLocation(ourShader.ID, "iter"), (int) iter);
+        ourshader.setVec2("screen_size", (float) SCR_WIDTH, (float) SCR_HEIGHT);
+        ourShader.setFloat("screen_ratio", (float) SCR_WIDTH / (float) SCR_HEIGHT);
+        ourshader.setVec2("center", cx, cy);
+        ourShader.setFloat("zoom", zoom);
+        ourShader.setInt("iter", (int) iter);
 
         // render boxes
         glBindVertexArray(VAO);
